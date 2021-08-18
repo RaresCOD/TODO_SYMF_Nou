@@ -1,11 +1,6 @@
 {% include 'base.html.twig' %}
 
 {% block header %}
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
   <style>
     .bd-placeholder-img {
       font-size: 1.125rem;
@@ -38,7 +33,33 @@
 {% endblock %}
 
 {% block body %}
-  <h1>
-    Welcome {{ app.user.username }}
-  </h1>
+
+  <div class="form-floating">
+    {{ form(task_form)}}
+  </div>
+  <!-- <form action="" method="post">
+
+        <div class="row g-2">
+          <div class="col-5">
+            <div class="form-floating">
+              <input type="text" name="task" class="form-control" id="floatingInputGrid" placeholder="Mers la magazin">
+              <label for="floatingInputGrid">Task</label>
+            </div>
+          </div>
+          <div class="col-5">
+            <div class="form-floating">
+              <select class="form-select" name="importance" id="floatingSelectGrid" aria-label="Floating label select example">
+                <option selected>Open this select menu</option>
+                <option value="1">Low</option>
+                <option value="2">Medium</option>
+                <option value="3">High</option>
+              </select>
+              <label for="floatingSelectGrid">Importance</label>
+            </div>
+          </div>
+          <div class="col m-2"><button class="w-100 btn btn-lg btn-primary" name="add" type="submit">Add</button></div>
+        </div>
+      </form> -->
+
+
 {% endblock %}

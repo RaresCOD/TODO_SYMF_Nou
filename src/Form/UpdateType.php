@@ -9,14 +9,13 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 
-class TodoFormType extends AbstractType
+class UpdateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('task')
             ->add('importance')
-            ->add('completed')
             ->add('Submit', SubmitType::class)
         ;
     }

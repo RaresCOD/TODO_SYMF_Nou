@@ -61,5 +61,18 @@
         </div>
       </form> -->
 
+    <h1>Tasks</h1><br>
+    <ul class="list-group list-group-flush">
+      {% for task in tasks %}
+        <div class="row g-2">
+          {% if task.idUser == Id %}
+            <div class="col-8"><li class="list-group-item bg-danger">{{task.task}}</li></div>
+            <div class="col m-2"><a href="{{ path('delete_task', {'id': task.id}) }}" class="w-100 btn btn-lg btn-primary" >Delete</a></div>
+            <div class="col m-2"><a href="{{ path('update_task', {'id': task.id}) }}" class="w-100 btn btn-lg btn-primary" >Update</a></div>
+            <div class="col m-2"><a href="{{ path('complete_task', {'id': task.id}) }}" class="w-100 btn btn-lg btn-primary" >Completed</a></div>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </ul>
 
 {% endblock %}

@@ -43,5 +43,5 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^(?!/(login|register)), roles: ROLE_USER }
+        - { path: ^(?!/(login|register|homepage)), roles: ROLE_USER }
         #- { path: /homepage, role: ROLE_ANONYMOUS }

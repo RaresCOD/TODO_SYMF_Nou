@@ -1,0 +1,14 @@
+{% include  'base.html.twig' %}
+
+{% block header %}
+  <div class="container">
+    <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-between py-3 mb-4 border-bottom"><h1>You are not logged in!</h1></header>
+  </div>
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <a href="/login"><button class="btn btn-lg btn-primary" type="submit">Sign in</button></a>
+    <a href="/register"><button class="btn btn-lg btn-primary" type="submit">Register</button></a>
+  </div>
+{% endblock %}

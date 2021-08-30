@@ -26,7 +26,7 @@
       </a>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-        <li><a href="#" class="nav-link px-2 link-secondary">Home</a></li>
+        <li><a href="{{ path('log_out')}}" class="nav-link px-2 link-secondary">Log Out</a></li>
       </ul>
     </header>
   </div>
@@ -66,10 +66,18 @@
       {% for task in tasks %}
         <div class="row g-2">
           {% if task.idUser == Id %}
-            <div class="col-8"><li class="list-group-item bg-danger">{{task.task}}</li></div>
-            <div class="col m-2"><a href="{{ path('delete_task', {'id': task.id}) }}" class="w-100 btn btn-lg btn-primary" >Delete</a></div>
-            <div class="col m-2"><a href="{{ path('update_task', {'id': task.id}) }}" class="w-100 btn btn-lg btn-primary" >Update</a></div>
-            <div class="col m-2"><a href="{{ path('complete_task', {'id': task.id}) }}" class="w-100 btn btn-lg btn-primary" >Completed</a></div>
+            {% if task.importance == 1 %}
+              <div class="col-8"><li class="list-group-item bg-succes">{{task.task}}</li></div>
+            {% elseif task.importance == 2 %}
+              <div class="col-8"><li class="list-group-item bg-warning">{{task.task}}</li></div>
+            {% else %}
+              <div class="col-8"><li class="list-group-item bg-danger">{{task.task}}</li></div>
+            {% endif %}
+            {% if task.completed == 0 %}
+              <div class="col m-2"><a href="{{ path('delete_task', {'id': task.id}) }}" class="w-100 btn btn-lg btn-primary" >Delete</a></div>
+              <div class="col m-2"><a href="{{ path('update_task', {'id': task.id}) }}" class="w-100 btn btn-lg btn-primary" >Update</a></div>
+              <div class="col m-2"><a href="{{ path('complete_task', {'id': task.id}) }}" class="w-100 btn btn-lg btn-primary" >Completed</a></div>
+            {% endif %}
           {% endif %}
         </div>
       {% endfor %}

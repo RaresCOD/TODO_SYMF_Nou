@@ -28,30 +28,35 @@ class TodoController extends AbstractController
    */
   public function show(Environment $twig, Request $request, EntityManagerInterface $entityManager)
   {
-    $userId = $this->get('session')->get('user_id');
+    if ($this->get('session')->has('user_id')) {
+      $userId = $this->get('session')->get('user_id');
 
-    $task = new TodoSiMaiBun();
+      $task = new TodoSiMaiBun();
 
-    $form = $this->createForm(TodoFormType::class, $task);
+      $form = $this->createForm(TodoFormType::class, $task);
 
-    $form->handleRequest($request);
+      $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-      $task->setIdUser($userId);
-      $entityManager->persist($task);
-      $entityManager->flush();
+      if ($form->isSubmitted() && $form->isValid()) {
+        $task->setIdUser($userId);
+        $entityManager->persist($task);
+        $entityManager->flush();
 
 
-      return new Response('Task number ' . $task->getId() . ' created');
+        return new Response('Task number ' . $task->getId() . ' created');
+      }
+
+      $tasks = $this->getDoctrine()->getRepository('App:TodoSiMaiBun')->findAll();
+
+      return new Response($twig->render('app/index.html.twig', [
+        'task_form' => $form->createView(),
+        'tasks' => $tasks,
+        'Id' => $userId
+      ]));
+    } else {
+      return new Response($twig->render('app/LogError.html.twig'));
     }
 
-    $tasks = $this->getDoctrine()->getRepository('App:TodoSiMaiBun')->findAll();
-
-    return new Response($twig->render('app/index.html.twig', [
-      'task_form' => $form->createView(),
-      'tasks' => $tasks,
-      'Id' => $userId
-    ]));
 
   }
 
@@ -111,4 +116,14 @@ class TodoController extends AbstractController
     $entityManager->flush();
     return $this->redirectToRoute('app_homepage');
   }
+
+  /**
+ *
+ * @Route(name="log_out")
+ *
+ */
+ public function logout() {
+   session_destroy();
+   return $this->redirectToRoute('app_login');
+ }
 }

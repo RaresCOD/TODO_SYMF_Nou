@@ -14,18 +14,30 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use App\Security\LoginFormAuthenticator;
+
 
 class RegistrationController extends AbstractController
 {
-    private $emailVerifier;
+    // private $emailVerifier;
+    //
+    // public function __construct(EmailVerifier $emailVerifier)
+    // {
+    //     $this->emailVerifier = $emailVerifier;
+    // }
 
-    public function __construct(EmailVerifier $emailVerifier)
-    {
-        $this->emailVerifier = $emailVerifier;
-    }
-
-    #[Route('/register', name: 'app_register')]
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
+    /**
+     * @param Request $request
+     * @param UserPasswordEncoderInterface $passwordEncoder
+     * @param GuardAuthenticatorHandler $guardHandler
+     * @param LoginFormAuthenticator $authenticator
+     * @return Response
+     * @todo move the logic to a service & add translation for the setting of the garden name
+     * @Route("/register", name="app_register")
+     */
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, LoginFormAuthenticator $authenticator, GuardAuthenticatorHandler $guardHandler): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -54,11 +66,21 @@ class RegistrationController extends AbstractController
             //         ->htmlTemplate('registration/confirmation_email.html.twig')
             // );
             // do anything else you need here, like send an email
-            $session = new Session();
-            //session_start();
-            $session->set('user_id', $user->getId());
-            return $this->redirectToRoute('app_homepage');
 
+
+
+            // $session = new Session();
+            // //session_start();
+            // $session->set('user_id', $user->getId());
+            // return $this->redirectToRoute('app_homepage');
+
+
+            return $guardHandler->authenticateUserAndHandleSuccess(
+            $user,          // the User object you just created
+            $request,
+            $authenticator, // authenticator whose onAuthenticationSuccess you want to use
+            'main'          // the name of your firewall in security.yaml
+            );
 
 
 
@@ -68,6 +90,8 @@ class RegistrationController extends AbstractController
             'registrationForm' => $form->createView(),
         ]);
     }
+
+
 
     // #[Route('/verify/email', name: 'app_verify_email')]
     // public function verifyUserEmail(Request $request): Response

@@ -67,7 +67,7 @@
         <div class="row g-2">
           {% if task.idUser == Id %}
             {% if task.importance == 1 %}
-              <div class="col-8"><li class="list-group-item bg-succes">{{task.task}}</li></div>
+              <div class="col-8"><li class="list-group-item bg-success">{{task.task}}</li></div>
             {% elseif task.importance == 2 %}
               <div class="col-8"><li class="list-group-item bg-warning">{{task.task}}</li></div>
             {% else %}

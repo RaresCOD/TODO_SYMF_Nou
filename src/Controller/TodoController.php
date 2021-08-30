@@ -43,7 +43,9 @@ class TodoController extends AbstractController
         $entityManager->flush();
 
 
-        return new Response('Task number ' . $task->getId() . ' created');
+        return new Response($twig->render('app/TaskAdded.html.twig', [
+          'task' => $task
+        ]));
       }
 
       $tasks = $this->getDoctrine()->getRepository('App:TodoSiMaiBun')->findAll();

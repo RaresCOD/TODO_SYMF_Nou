@@ -7,7 +7,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-
+use Symfony\Component\Form\Extension\Core\Type\RangeType;
 
 class TodoFormType extends AbstractType
 {
@@ -15,7 +15,11 @@ class TodoFormType extends AbstractType
     {
         $builder
             ->add('task')
-            ->add('importance')
+            ->add('importance', RangeType::class, [
+              'attr' => [
+                'min' => 1,
+                'max' => 3
+              ]])
             ->add('completed')
             ->add('Submit', SubmitType::class)
         ;

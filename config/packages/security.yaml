@@ -21,7 +21,10 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            custom_authenticator: App\Security\LoginFormAuthenticator
+            custom_authenticator:
+                - App\Security\LoginFormAuthenticator
+                - App\Security\LoginNouAuthenticator
+            entry_point: App\Security\LoginFormAuthenticator
             # login:
             #     path: app_login
             #     check: app_login

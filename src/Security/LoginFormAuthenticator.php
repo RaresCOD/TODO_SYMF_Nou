@@ -17,6 +17,7 @@ use Symfony\Component\Security\Http\Authenticator\Passport\PassportInterface;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\InputBag;
+use Symfony\Component\Security\Guard\AbstractGuardAuthenticator;
 
 class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
 {
@@ -33,6 +34,7 @@ class LoginFormAuthenticator extends AbstractLoginFormAuthenticator
         $this->security = $security;
 
     }
+
 
     public function authenticate(Request $request): PassportInterface
     {

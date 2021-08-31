@@ -16,7 +16,7 @@ use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
-use App\Security\LoginFormAuthenticator;
+use App\Security\LoginNouAuthenticator;
 
 
 class RegistrationController extends AbstractController
@@ -37,7 +37,7 @@ class RegistrationController extends AbstractController
      * @todo move the logic to a service & add translation for the setting of the garden name
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, LoginFormAuthenticator $authenticator, GuardAuthenticatorHandler $guardHandler): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, LoginNouAuthenticator $loginAuthenticator, GuardAuthenticatorHandler $guard): Response
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
@@ -69,18 +69,12 @@ class RegistrationController extends AbstractController
 
 
 
-            // $session = new Session();
-            // //session_start();
-            // $session->set('user_id', $user->getId());
+            $session = new Session();
+            //session_start();
+            $session->set('user_id', $user->getId());
             // return $this->redirectToRoute('app_homepage');
 
-
-            return $guardHandler->authenticateUserAndHandleSuccess(
-            $user,          // the User object you just created
-            $request,
-            $authenticator, // authenticator whose onAuthenticationSuccess you want to use
-            'main'          // the name of your firewall in security.yaml
-            );
+            return $guard->authenticateUserAndHandleSuccess($user, $request, $loginAuthenticator, 'main');
 
 
 

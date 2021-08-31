@@ -17,6 +17,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Security\LoginNouAuthenticator;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
 
 
 class RegistrationController extends AbstractController
@@ -37,9 +39,23 @@ class RegistrationController extends AbstractController
      * @todo move the logic to a service & add translation for the setting of the garden name
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, LoginNouAuthenticator $loginAuthenticator, GuardAuthenticatorHandler $guard): Response
+    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, LoginNouAuthenticator $loginAuthenticator, GuardAuthenticatorHandler $guard, ValidatorInterface $validator): Response
     {
         $user = new User();
+
+        $errors = $validator->validate($user);
+
+        if (count($errors) > 0) {
+            /*
+             * Uses a __toString method on the $errors variable which is a
+             * ConstraintViolationList object. This gives us a nice string
+             * for debugging.
+             */
+            $errorsString = (string) $errors;
+
+            return new Response($errorsString);
+        }
+
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 

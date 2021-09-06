@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
+use App\Document\User;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -18,6 +18,7 @@ use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use App\Security\LoginNouAuthenticator;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Doctrine\ODM\MongoDB\DocumentManager;
 
 
 
@@ -39,7 +40,7 @@ class RegistrationController extends AbstractController
      * @todo move the logic to a service & add translation for the setting of the garden name
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, UserPasswordEncoderInterface $passwordEncoder, LoginNouAuthenticator $loginAuthenticator, GuardAuthenticatorHandler $guard, ValidatorInterface $validator): Response
+    public function register(Request $request, DocumentManager $dm, UserPasswordEncoderInterface $passwordEncoder, LoginNouAuthenticator $loginAuthenticator, GuardAuthenticatorHandler $guard, ValidatorInterface $validator): Response
     {
         $user = new User();
 
@@ -69,9 +70,9 @@ class RegistrationController extends AbstractController
             );
             $user->setRoles(['USER_ROLE']);
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            // $entityManager = $this->getDoctrine()->getManager();
+            $dm->persist($user);
+            $dm->flush();
 
             // generate a signed url and email it to the user
             // $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,

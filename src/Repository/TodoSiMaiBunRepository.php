@@ -2,9 +2,9 @@
 
 namespace App\Repository;
 
-use App\Entity\TodoSiMaiBun;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Document\TodoSiMaiBun;
+use Doctrine\ODM\MongoDB\Repository\DocumentRepository;
+use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
 
 /**
  * @method TodoSiMaiBun|null find($id, $lockMode = null, $lockVersion = null)
@@ -12,12 +12,8 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method TodoSiMaiBun[]    findAll()
  * @method TodoSiMaiBun[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TodoSiMaiBunRepository extends ServiceEntityRepository
+class TodoSiMaiBunRepository extends DocumentRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, TodoSiMaiBun::class);
-    }
 
     // /**
     //  * @return TodoSiMaiBun[] Returns an array of TodoSiMaiBun objects

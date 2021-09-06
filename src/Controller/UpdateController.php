@@ -2,18 +2,19 @@
 
 namespace App\Controller;
 
-use App\Entity\TodoSiMaiBun;
+use App\Document\TodoSiMaiBun;
 use App\Form\UpdateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ODM\MongoDB\DocumentManager;
+
 
 class UpdateController extends AbstractController
 {
     #[Route('/update', name: 'update')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request, DocumentManager $entityManager): Response
     {
       $userId = $this->get('session')->get('user_id');
       $TaskC = $this->get('session')->get('task_c');

@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\TodoSiMaiBun;
+use App\Document\TodoSiMaiBun;
 use App\Form\TodoFormType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Twig\Environment;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ODM\MongoDB\DocumentManager;
+use Doctrine\ODM\MongoDB\ManagerRegistry;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,7 +27,7 @@ class TodoController extends AbstractController
   /**
    * @Route("/homepage", name="app_homepage")
    */
-  public function show(Environment $twig, Request $request, EntityManagerInterface $entityManager)
+  public function show(Environment $twig, Request $request, DocumentManager $entityManager)
   {
     if ($this->get('session')->has('user_id')) {
       $userId = $this->get('session')->get('user_id');
@@ -48,7 +49,7 @@ class TodoController extends AbstractController
         ]));
       }
 
-      $tasks = $this->getDoctrine()->getRepository('App:TodoSiMaiBun')->findAll();
+      $tasks = $entityManager->getRepository('App:TodoSiMaiBun')->findAll();
 
       return new Response($twig->render('app/index.html.twig', [
         'task_form' => $form->createView(),

@@ -35,9 +35,17 @@ class UserRepository extends ServiceDocumentRepository implements PasswordUpgrad
         }
 
         $user->setPassword($newHashedPassword);
-        $this->_em->persist($user);
-        $this->_em->flush();
+        $this->dm->persist($user);
+        $this->dm->flush();
     }
+
+    public function getAll()
+    {
+      return $this->createQueryBuilder()
+        ->getQuery()
+        ->execute();
+    }
+
 
     // /**
     //  * @return User[] Returns an array of User objects

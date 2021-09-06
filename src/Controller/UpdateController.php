@@ -18,7 +18,6 @@ class UpdateController extends AbstractController
     {
       $userId = $this->get('session')->get('user_id');
       $TaskC = $this->get('session')->get('task_c');
-      print_r($TaskC);
       $task = new TodoSiMaiBun();
 
       $form = $this->createForm(UpdateType::class, $task);

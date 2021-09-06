@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Document\User;
+use App\Repository\UserRepository;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -40,11 +41,26 @@ class RegistrationController extends AbstractController
      * @todo move the logic to a service & add translation for the setting of the garden name
      * @Route("/register", name="app_register")
      */
-    public function register(Request $request, DocumentManager $dm, UserPasswordEncoderInterface $passwordEncoder, LoginNouAuthenticator $loginAuthenticator, GuardAuthenticatorHandler $guard, ValidatorInterface $validator): Response
+    public function register(Request $request, DocumentManager $dm, UserPasswordEncoderInterface $passwordEncoder, LoginNouAuthenticator $loginAuthenticator, GuardAuthenticatorHandler $guard, ValidatorInterface $validator, UserRepository $ur): Response
     {
         $user = new User();
 
+        // $all = $ur->getAll();
+        // $exists = true;
+        // while ($exists == true) {
+        //   $exists = false;
+        //   foreach ($all as $value) {
+        //     if ($value->getId() == $user->getId())
+        //       $exists = true;
+        //   }
+        //   if($exists == true)
+        //     $user = new User();
+        // }
+
+
         $errors = $validator->validate($user);
+
+
 
         if (count($errors) > 0) {
             /*
@@ -69,7 +85,6 @@ class RegistrationController extends AbstractController
                 )
             );
             $user->setRoles(['USER_ROLE']);
-
             // $entityManager = $this->getDoctrine()->getManager();
             $dm->persist($user);
             $dm->flush();
@@ -92,7 +107,7 @@ class RegistrationController extends AbstractController
             // return $this->redirectToRoute('app_homepage');
 
             return $guard->authenticateUserAndHandleSuccess($user, $request, $loginAuthenticator, 'main');
-
+            // return $this->redirectToRoute('app_homepage');
 
 
         }

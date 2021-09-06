@@ -4,17 +4,19 @@ namespace App\Document;
 
 use App\Repository\UserRepository;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
+use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique as MongoDBUnique;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ODM\Document(repositoryClass=UserRepository::class)
+ * @MongoDBUnique(fields="email")
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     /**
-     * @ODM\Id(strategy="UUID", type="integer")
+     * @ODM\Id
      */
     private $id;
 
@@ -41,7 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $isVerified = false;
 
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }

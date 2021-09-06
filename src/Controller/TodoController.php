@@ -65,14 +65,14 @@ class TodoController extends AbstractController
 
     /**
    *
-   * @Route("/entity-remove/{id}", requirements={"id" = "\d+"}, name="delete_task")
+   * @Route("/entity-remove/{id}", name="delete_task")
    *
    */
-   public function deleteTask(int $id) {
-     $entityManager = $this->getDoctrine()->getManager();
-     $task = $entityManager->getRepository(TodoSiMaiBun::class)->find($id);
-     $entityManager->remove($task);
-     $entityManager->flush();
+   public function deleteTask(string $id, DocumentManager $dm) {
+     // $entityManager = $this->getDoctrine()->getManager();
+     $task = $dm->getRepository(TodoSiMaiBun::class)->find($id);
+     $dm->remove($task);
+     $dm->flush();
      return $this->redirectToRoute('app_homepage');
    }
 
@@ -86,20 +86,19 @@ class TodoController extends AbstractController
 
    /**
   *
-  * @Route("/entity-update/{id}", requirements={"id" = "\d+"}, name="update_task")
+  * @Route("/entity-update/{id}", name="update_task")
   *
   */
-  public function updateTask(int $id) {
-    $entityManager = $this->getDoctrine()->getManager();
-    $task = $entityManager->getRepository(TodoSiMaiBun::class)->find($id);
+  public function updateTask(string $id, DocumentManager $dm) {
+    // $entityManager = $this->getDoctrine()->getManager();
+    $task = $dm->getRepository(TodoSiMaiBun::class)->find($id);
     // $helper = $this->
     // $question = new Question('Please enter the name of the bundle', 'AcmeDemoBundle');
     // $bundleName = $helper->ask($input, $output, $question);
     $session = new Session;
     $session->set('task_c', $task->getCompleted());
-    print_r($task->getCompleted());
-    $entityManager->remove($task);
-    $entityManager->flush();
+    $dm->remove($task);
+    $dm->flush();
     return $this->redirectToRoute('update');
     //return $this->render('app/update.html.twig');
     // $task->setTask("Nou");
@@ -109,14 +108,14 @@ class TodoController extends AbstractController
 
   /**
   *
-  * @Route("/entity-complete/{id}", requirements={"id" = "\d+"}, name="complete_task")
+  * @Route("/entity-complete/{id}", name="complete_task")
   *
   */
-  public function completeTask(int $id) {
-    $entityManager = $this->getDoctrine()->getManager();
-    $task = $entityManager->getRepository(TodoSiMaiBun::class)->find($id);
+  public function completeTask(string $id, DocumentManager $dm) {
+    // $entityManager = $this->getDoctrine()->getManager();
+    $task = $dm->getRepository(TodoSiMaiBun::class)->find($id);
     $task->setCompleted(1);
-    $entityManager->flush();
+    $dm->flush();
     return $this->redirectToRoute('app_homepage');
   }
 

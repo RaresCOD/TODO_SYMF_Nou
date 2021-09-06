@@ -5,6 +5,7 @@ doctrine_mongodb:
         default:
             server: '%mongodb_server%'
             options: {}
+            
     default_database: SYMF_db
     document_managers:
         default:

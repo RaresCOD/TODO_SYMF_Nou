@@ -8,6 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\RangeType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class TodoFormType extends AbstractType
 {
@@ -20,7 +21,9 @@ class TodoFormType extends AbstractType
                 'min' => 1,
                 'max' => 3
               ]])
-            ->add('completed')
+            ->add('completed', CheckboxType::class, [
+              'required' => false
+            ])
             ->add('Submit', SubmitType::class)
         ;
     }

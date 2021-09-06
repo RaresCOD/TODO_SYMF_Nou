@@ -11,12 +11,12 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 class TodoSiMaiBun
 {
     /**
-     * @ODM\Id(strategy="UUID", type="integer")
+     * @ODM\Id
      */
     private $id;
 
     /**
-     * @ODM\Field(type="integer")
+     * @ODM\Field(type="string")
      */
     private $idUser;
 
@@ -35,17 +35,17 @@ class TodoSiMaiBun
      */
     private $completed;
 
-    public function getId(): ?int
+    public function getId()
     {
         return $this->id;
     }
 
-    public function getIdUser(): ?int
+    public function getIdUser(): ?string
     {
         return $this->idUser;
     }
 
-    public function setIdUser(int $idUser): self
+    public function setIdUser(string $idUser): self
     {
         $this->idUser = $idUser;
 

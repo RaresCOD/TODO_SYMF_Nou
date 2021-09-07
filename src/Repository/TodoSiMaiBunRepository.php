@@ -15,6 +15,10 @@ use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
 class TodoSiMaiBunRepository extends DocumentRepository
 {
 
+    public function findAll(): array
+    {
+      return $this->findBy(array(), array('importance' => 'DESC'));
+    }
     // /**
     //  * @return TodoSiMaiBun[] Returns an array of TodoSiMaiBun objects
     //  */

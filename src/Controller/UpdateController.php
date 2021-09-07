@@ -16,17 +16,19 @@ class UpdateController extends AbstractController
     #[Route('/update', name: 'update')]
     public function index(Request $request, DocumentManager $entityManager): Response
     {
-      $userId = $this->get('session')->get('user_id');
-      $TaskC = $this->get('session')->get('task_c');
-      $task = new TodoSiMaiBun();
+      // $userId = $this->get('session')->get('user_id');
+      // $TaskC = $this->get('session')->get('task_c');
+      // $task = new TodoSiMaiBun();
+      $task_id = $this->get('session')->get('id');
+      $task = $entityManager->getRepository(TodoSiMaiBun::class)->find($task_id);
 
       $form = $this->createForm(UpdateType::class, $task);
 
       $form->handleRequest($request);
 
       if ($form->isSubmitted() && $form->isValid()) {
-        $task->setIdUser($userId);
-        $task->setCompleted($TaskC);
+        // $task->setIdUser($userId);
+        // $task->setCompleted($TaskC);
         $entityManager->persist($task);
         $entityManager->flush();
 

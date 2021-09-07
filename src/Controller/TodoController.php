@@ -91,14 +91,15 @@ class TodoController extends AbstractController
   */
   public function updateTask(string $id, DocumentManager $dm) {
     // $entityManager = $this->getDoctrine()->getManager();
-    $task = $dm->getRepository(TodoSiMaiBun::class)->find($id);
+    // $task = $dm->getRepository(TodoSiMaiBun::class)->find($id);
     // $helper = $this->
     // $question = new Question('Please enter the name of the bundle', 'AcmeDemoBundle');
     // $bundleName = $helper->ask($input, $output, $question);
     $session = new Session;
-    $session->set('task_c', $task->getCompleted());
-    $dm->remove($task);
-    $dm->flush();
+    // $session->set('task_c', $task->getCompleted());
+    $session->set('id', $id);
+    // $dm->remove($task);
+    // $dm->flush();
     return $this->redirectToRoute('update');
     //return $this->render('app/update.html.twig');
     // $task->setTask("Nou");
